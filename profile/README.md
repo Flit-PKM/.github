@@ -2,17 +2,7 @@
 
 **Flutter through the web of your consciousness.**
 
-![Ethereal butterfly in surreal neural web](https://i0.wp.com/unquietthings.com/wp-content/uploads/2025/08/Martina-Hoffman-CONTACT-II-.jpeg?resize=602%2C401&ssl=1)<grok:render card_id="bfc33a" card_type="image_card" type="render_searched_image"><argument name="image_id">4</argument><argument name="size">"LARGE"</argument></grok:render>
 
-![Butterfly on delicate spider web with dew](https://www.shutterstock.com/image-photo/butterfly-trapped-spiders-web-close-260nw-2460289629.jpg)<grok:render card_id="bdd900" card_type="image_card" type="render_searched_image"><argument name="image_id">6</argument><argument name="size">"LARGE"</argument></grok:render>
-
-![Abstract neural network visualization](https://www.frontiersin.org/files/Articles/768201/fnsys-16-768201-HTML-r1/image_m/fnsys-16-768201-g001.jpg)<grok:render card_id="b58d80" card_type="image_card" type="render_searched_image"><argument name="image_id">10</argument><argument name="size">"LARGE"</argument></grok:render>
-
-![Psychedelic threads and patterns](https://img-v3.deepdreamgenerator.com/3561312/md_lvggde_26fe4a5812f56b48df3f039efdfcade77d6a6222.jpg)<grok:render card_id="19c7de" card_type="image_card" type="render_searched_image"><argument name="image_id">3</argument><argument name="size">"LARGE"</argument></grok:render>
-
-![Intricate web of light](https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=10221800234257026)<grok:render card_id="ebf4c8" card_type="image_card" type="render_searched_image"><argument name="image_id">8</argument><argument name="size">"LARGE"</argument></grok:render>
-
-![Neuroscience interface graph](https://www.jneurosci.org/content/jneuro/42/45/8514/F1.large.jpg)<grok:render card_id="b160a1" card_type="image_card" type="render_searched_image"><argument name="image_id">11</argument><argument name="size">"LARGE"</argument></grok:render>
 
 Flit-PKM is a personal knowledge management ecosystem that transforms ephemeral auditory inputs—voice notes, conversations, lectures—into a dynamic, interconnected neural network of insights.
 
