@@ -2,13 +2,16 @@
 
 Personal knowledge management: markdown notes, categories, and typed links between notes, backed by a shared sync API. Clients include a web app and an Android app; agents can use MCP against the same data.
 
+**Website:** [flit-pkm.com](https://flit-pkm.com/) · **App:** [core.flit-pkm.com](https://core.flit-pkm.com/)
+
 ## Repositories
 
 | Repo | Role |
 |------|------|
-| **flit_core** | FastAPI backend (Python ≥3.13), PostgreSQL, Alembic migrations. JWT auth, OAuth-style device pairing, versioned sync, notes/categories/relationships REST API, vault ZIP/`.md` import-export, MCP server (JSON-RPC tools + OAuth), Dodo Payments billing, public feedback/subscriptions (Turnstile). |
-| **flit_web** | SvelteKit 2 + TypeScript static SPA (`adapter-static`). Account, notes editor, categories, profile, connected apps, billing. Built output is also vendored under `flit_core/webapp_build/` for same-origin hosting. |
-| **flit_android** | Kotlin + Jetpack Compose (minSdk 31). Local Room DB, markdown notes, categories, typed relationships and wikilinks, ranked text search, optional on-device speech-to-text (Sherpa ONNX), sync to Flit Core. Import/export ZIP and share targets. |
+| [**flit_core**](https://github.com/Flit-PKM/flit_core) | FastAPI backend (Python ≥3.13), PostgreSQL, Alembic migrations. JWT auth, OAuth-style device pairing, versioned sync, notes/categories/relationships REST API, vault ZIP/`.md` import-export, MCP server (JSON-RPC tools + OAuth), Dodo Payments billing, public feedback/subscriptions (Turnstile). |
+| [**flit_web**](https://github.com/Flit-PKM/flit_web) | SvelteKit 2 + TypeScript static SPA (`adapter-static`). Account, notes editor, categories, profile, connected apps, billing. Built output is also vendored under `flit_core/webapp_build/` for same-origin hosting. |
+| [**flit_android**](https://github.com/Flit-PKM/flit_android) | Kotlin + Jetpack Compose (minSdk 31). Local Room DB, markdown notes, categories, typed relationships and wikilinks, ranked text search, optional on-device speech-to-text (Sherpa ONNX), sync to Flit Core. Import/export ZIP and share targets. |
+| [**flit_landing**](https://github.com/Flit-PKM/flit_landing) | Static marketing site for [flit-pkm.com](https://flit-pkm.com/); no API. |
 
 Documentation and conventions live in each repo’s README and `AGENTS.md` files (no separate **flit-docs** repo today).
 
