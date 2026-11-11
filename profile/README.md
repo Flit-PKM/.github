@@ -64,6 +64,6 @@ MCP agents         ──┘     /api/sync/* ← versioned merge       relations
 
 ## Status
 
-Active development. The three repos above are working codebases with tests and CI patterns documented locally — not a design-only phase.
+Active development. The four repos above are working codebases with tests and CI patterns documented locally — not a design-only phase.
 
 Issues and discussions are welcome. Match contribution style to the target repo’s README and `AGENTS.md`.
