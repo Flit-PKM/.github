@@ -1,45 +1,66 @@
 # Flit-PKM
 
-**Flutter through the web of your consciousness.**
+Personal knowledge management: markdown notes, categories, and typed links between notes, backed by a shared sync API. Clients include a web app and an Android app; agents can use MCP against the same data.
 
+## Repositories
 
+| Repo | Role |
+|------|------|
+| **flit_core** | FastAPI backend (Python ≥3.13), PostgreSQL, Alembic migrations. JWT auth, OAuth-style device pairing, versioned sync, notes/categories/relationships REST API, vault ZIP/`.md` import-export, MCP server (JSON-RPC tools + OAuth), Dodo Payments billing, public feedback/subscriptions (Turnstile). |
+| **flit_web** | SvelteKit 2 + TypeScript static SPA (`adapter-static`). Account, notes editor, categories, profile, connected apps, billing. Built output is also vendored under `flit_core/webapp_build/` for same-origin hosting. |
+| **flit_android** | Kotlin + Jetpack Compose (minSdk 31). Local Room DB, markdown notes, categories, typed relationships and wikilinks, ranked text search, optional on-device speech-to-text (Sherpa ONNX), sync to Flit Core. Import/export ZIP and share targets. |
 
-Flit-PKM is a personal knowledge management ecosystem that transforms ephemeral auditory inputs—voice notes, conversations, lectures—into a dynamic, interconnected neural network of insights.
+Documentation and conventions live in each repo’s README and `AGENTS.md` files (no separate **flit-docs** repo today).
 
-A butterfly lands lightly on the web of consciousness.  
-It flits from thread to thread, stirring resonances.  
-Hidden patterns emerge; distant memories connect.  
-The web evolves—automatically, probabilistically—yet remains fully yours to reshape.
+## Architecture
 
-This is Flit-PKM: your second mind, automated yet editable, resonant yet private.
+**Deployment unit:** one **flit_core** process + PostgreSQL. Optional static **flit_landing** (no backend coupling).
 
-### Core Principles
+```
+Clients                    flit_core                         Data
+─────────                  ─────────                         ────
+flit_web (SPA)     ──┐     /           ← webapp_build        PostgreSQL
+flit_android       ──┼──►  /api/*     ← REST, JWT / OAuth    (notes, categories,
+MCP agents         ──┘     /api/sync/* ← versioned merge       relationships, users,
+                           /mcp*       ← JSON-RPC + OAuth      billing, …)
+```
 
-- **Semantic Distillation**: Extract latent meanings from raw vocal streams for multidimensional similarity and emergent patterns.
-- **Relational Synthesis**: Forge adaptive, probabilistic links in a graph-based ontology that evolves through inference.
-- **Hierarchical Abstraction**: Layer from atomic fragments to synthesized overviews, enabling fractal navigation (temporal, thematic, contextual).
-- **Cognitive Symbiosis**: Automation-first inferences with full user editability—no confirmation prompts, only intuitive post-hoc refinement.
-- **Polymorphic Interfaces**: Seamless access across modalities, prioritizing discoverability and serendipity.
+### Layers
 
-### Vision
+| Layer | Component | Responsibility |
+|-------|-----------|------------------|
+| Presentation | **flit_web** | Static SPA; prerendered shell + client routing (`200.html`). |
+| Presentation | **flit_android** | Compose UI over local **Room**; on-device search, STT, import/export. |
+| API | **flit_core** `/api/*` | CRUD, auth, profile, vault, billing; OpenAPI is contract for web. |
+| Sync | **flit_core** `/api/sync/*` | Connected-app merge: versions, soft deletes, `core_id` mapping. |
+| Agents | **flit_core** `/mcp` | PKM tools over JSON-RPC; OAuth and API keys, separate route tree. |
+| Data | PostgreSQL | Single source of truth for all surfaces. |
 
-Flit-PKM is built for individual, private use. It ingests voice, distills insights, weaves relations, and reveals correlations—all locally, with graceful degradation and reversible actions. No multi-user collaboration; exports planned for later stages.
+### Client models
 
-### Repository Structure (Planned)
+- **Web — thin client.** JWT session → direct `/api` calls. No local graph replica.
+- **Android — thick client.** Authoritative UI reads **Room**; **SyncRepository** pushes/pulls against `/api/sync` when a connected-app token exists. Local-only work stays offline.
 
-This organization will host modular repositories:
+### Auth boundaries
 
-- `flit-core`: Backend logic (Python) – ingestion, distillation, graph synthesis.
-- `flit-graph`: Knowledge graph persistence and inference.
-- `flit-interface`: Polymorphic frontends (web, voice, mobile).
-- `flit-docs`: Architecture, philosophy, and guides.
+| Credential | Issued via | Used for |
+|------------|------------|----------|
+| User JWT | `/api/auth` (web login) | SPA, connect-code creation, MCP API key management |
+| Connected-app OAuth | `/api/connect/exchange` (after profile code) | Android sync |
+| MCP OAuth / API key | `/mcp/oauth/*`, `/mcp/api-keys` | Agent tool calls |
 
-Development emphasizes simplicity, testability, maintainability, and technical debt prevention.
+### Release
 
-### Status
+`flit_web` `npm run build` → copy to `flit_core/webapp_build/` → core mounts `/` (same origin as `/api` in production). Dev: core `:8000`, web dev server `:5173` + `VITE_API_BASE_URL`.
 
-Early conceptual stage – architecture design in progress.
+## Data model
 
-Contributions welcome once core prototypes stabilize. Issues and discussions open for philosophical or technical input.
+- **Notes** — title, markdown body, versioning and soft delete for sync.
+- **Categories** — many-to-many with notes.
+- **Relationships** — directed edges between two notes with a fixed type: `FOLLOWS_ON`, `SIMILAR_TO`, `CONTRADICTS`, `REFERENCES`, `RELATED_TO`. Created explicitly (UI, API, MCP, or structured import); not inferred automatically in the backend today.
 
-Flutter onward.
+## Status
+
+Active development. The three repos above are working codebases with tests and CI patterns documented locally — not a design-only phase.
+
+Issues and discussions are welcome. Match contribution style to the target repo’s README and `AGENTS.md`.
